@@ -1,24 +1,8 @@
-# README
+# How to run the app
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
-
-Things you may want to cover:
-
-* Ruby version
-
-* System dependencies
-
-* Configuration
-
-* Database creation
-
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+- This app use Ruby version 2.2.3, so please make sure you have Ruby 2.2.3 installed on your local machine.
+- This app use MongoDB for the database, so please make sure that you have Mongodb installed on your local machine.
+- Run `bundle install` in root folder to install gems.
+- Run `rake bower:install` in root folder to download javascript and css assets.
+- Run `npm install babel-preset-latest --save-dev` in root folder to enable transforms for ES2015+
+- Run `rails s` in root folder to start the application. You can access the app at http://localhost:3000
