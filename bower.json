@@ -1,0 +1,12 @@
+{
+  "vendor": {
+    "name": "bower-rails generated vendor assets",
+    "dependencies": {
+      "backbone"                 : "latest",
+      "react"                    : "latest",
+      "babel"                    : "latest",
+      "backbone-react-component" : "latest",
+      "summernote"               : "latest"
+    }
+  }
+}
