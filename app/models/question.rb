@@ -1,6 +1,7 @@
 class Question
   include Mongoid::Document
   include Mongoid::Timestamps
+
   field :question, type: String
   field :answer, type: String
 
@@ -20,11 +21,12 @@ class Question
     alternative_answer.split(' ').each do |word|
       if number_found = word[/\d+/]
         number_in_words = NumbersInWords.in_words(number_found)
+        # to remove conjunction like 'and'
+        number_in_words.slice!('and')
         alternative_answer.gsub!(number_found.to_s, number_in_words)
       end
     end
 
-    alternative_answer.slice!('and')
     alternative_answer.strip.squeeze(' ').downcase
   end
 
