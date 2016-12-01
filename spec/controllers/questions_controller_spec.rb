@@ -192,6 +192,13 @@ RSpec.describe QuestionsController, type: :controller do
         expect(response).to render_template(:get_random)
       end
     end
+
+    context 'when there is no questions' do
+      it "should respond with 404" do
+        get :get_random, format: :json
+        expect(response).to have_http_status(:not_found)
+      end
+    end
   end
 
   # test the get_random action
