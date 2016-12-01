@@ -4,8 +4,9 @@ class App.Models.Question extends Backbone.Model
   idAttribute: "_id"
 
   parse: (model)->
-    model._id = model.id.$oid;
-    delete model['id'];
+    if model.id
+      model._id = model.id.$oid;
+      delete model['id'];
 
     if model.updated_at
       model.formatted_updated_at = new Date(model.updated_at).toString();
@@ -21,7 +22,7 @@ class App.Models.Question extends Backbone.Model
   toJSON: ()->
     question: _.clone(this.attributes)
 
-  getRandom: (opts)->
+  getRandom: (options)->
     options = _.extend({parse: true}, options)
     options.url = this.url() + '/get_random'
     model = this

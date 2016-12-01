@@ -51,6 +51,10 @@ class QuestionsController < ApplicationController
   # DELETE /questions/get_random.json
   def get_random
     @question = Question.get_random
+
+    unless @question
+      render json: { error: "random question can't be found" }.to_json, status: 404
+    end
   end
 
   def check_answer

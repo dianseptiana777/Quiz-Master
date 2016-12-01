@@ -1,6 +1,18 @@
 App.Components.QuizPage = React.createClass({
   getInitialState: function(){
-    return { question: this.props.question };
+    return { loading: false };
+  },
+
+  componentDidMount: function(){
+    var that = this;
+    this.props.question.getRandom({
+      error: function(res){
+        that.setState({ error_code: res.status })
+      }
+    }).done(function(){
+      that.setState({ question: that.props.question });
+    });
+
   },
 
   submitAnswer: function(event){
@@ -12,21 +24,28 @@ App.Components.QuizPage = React.createClass({
     var userQuestion = new App.Models.Question();
     userQuestion.set('_id', this.state.question.get('_id'));
     userQuestion.set('answer', this.refs.userAnswer.value);
+    this.setState({ 'loading': true });
+
     var that = this;
 
     userQuestion.checkAnswer({
       success: function(res){
         that.setState({ answerCorrect: res.correct });
         that.refs.userAnswer.value = '';
+        that.setState({ 'loading': false });
       }
     });
   },
 
   changeQuestion: function(){
     var question = new App.Models.Question({ parse: true });
+    this.setState({ 'loading': true });
+
     var that = this;
 
     question.getRandom().done(function(){
+      that.setState({ 'loading': false });
+
       that.setState({ question: question });
       that.refs.userAnswer.value = '';
       that.setState({ answerCorrect: undefined });
@@ -34,14 +53,31 @@ App.Components.QuizPage = React.createClass({
   },
 
   render: function(){
-    var notification;
+    var notification, loading;
+
+    // render error notification if error happened when request question to server
+    if (this.state.error_code) {
+      return React.createElement(App.Components.ErrorNotification, { status: this.state.error_code });
+    }
+
+    // render loading if question state hasn't been defined yet
+    if (typeof this.state.question == 'undefined') {
+      return React.createElement('div', { className: 'loading' });
+    }
+
+    // render question page
+    if (this.state.loading){
+      loading = React.createElement('div', { className: 'loading' });
+    }
 
     if (typeof this.state.answerCorrect != 'undefined'){
-      notification = React.createElement(App.Components.Notification, { answerCorrect: this.state.answerCorrect });
+      notification = React.createElement(App.Components.AnswerNotification, { answerCorrect: this.state.answerCorrect });
     }
 
     return (
       <div className="container">
+        {loading}
+
         <div className="col-md-12">
           <h1>Welcome to Quiz Page</h1>
           <h4>In this page, you need to answer to random question displayed</h4>

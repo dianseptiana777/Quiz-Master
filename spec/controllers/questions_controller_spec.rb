@@ -254,5 +254,22 @@ RSpec.describe QuestionsController, type: :controller do
         expect(response.body).to eq({ correct: false }.to_json)
       end
     end
+
+    context 'when question found but answer is blank' do
+      before :each do
+        post :check_answer, format: :json, params: {
+          id: create(:question, :answer_equal_2),
+          question: { answer: '' }
+        }
+      end
+
+      it "should returns http success" do
+        expect(response).to have_http_status(:success)
+      end
+
+      it "should respond with json with correctness status set to false" do
+        expect(response.body).to eq({ correct: false }.to_json)
+      end
+    end
   end
 end

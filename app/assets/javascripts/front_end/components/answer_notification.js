@@ -1,4 +1,4 @@
-App.Components.Notification = React.createClass({
+App.Components.AnswerNotification = React.createClass({
   render: function(){
     var notificationClass, message;
 
@@ -7,14 +7,14 @@ App.Components.Notification = React.createClass({
       message = 'Congratulations! Your answer is correct';
     } else {
       notificationClass = 'alert alert-danger';
-      message = 'Oops! Good luck next time';
+      message = 'Oops! it\'s seems that your answer is incorrect';
     }
 
     return (
       <div className={notificationClass}>
-        <strong>Notification</strong>
+        <h4>Notification</h4>
         <p>{message}</p>
       </div>
-    )
+    );
   }
 });

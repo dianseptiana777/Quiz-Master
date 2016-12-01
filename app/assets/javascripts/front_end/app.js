@@ -19,12 +19,10 @@ $(document).ready(function(){
   app_router.on('route:renderQuizPage', function (actions) {
     var question = new App.Models.Question();
 
-    question.getRandom().done(function(){
-      ReactDOM.render(
-        React.createElement(App.Components.QuizPage, { question: question }),
-        $('#quizApp')[0]
-      );
-    });
+    ReactDOM.render(
+      React.createElement(App.Components.QuizPage, { question: question }),
+      $('#quizApp')[0]
+    );
   });
 
   Backbone.history.start();
